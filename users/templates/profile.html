@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}User Profile{% endblock %}
+
+{% block nav %}
+    {% if user.is_authenticated %}
+        {% include 'logged-nav.html' %}
+    {% else %}
+        {% include 'non-logged-nav.html' %}
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="max-w-lg mx-auto mt-10 p-6 bg-white rounded shadow">
+    <h1 class="text-2xl font-bold mb-4">User Profile</h1>
+
+    <div class="flex flex-col md:flex-row items-start md:items-center gap-6">
+        <div class="flex-1">
+            <p class="mb-2"><strong>Username:</strong> {{ profile_user.username }}</p>
+            <p class="mb-2"><strong>Email:</strong> {{ profile_user.email }}</p>
+            <p class="mb-2"><strong>Phone:</strong> {{ profile_user.phone_number }}</p>
+        </div>
+        
+        {% if profile_user.profile_image %}
+        <div class="flex-shrink-0">
+            <img src="{{ profile_user.profile_image.url }}" alt="Profile Image" class="w-32 h-32 rounded-full object-cover border">
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="mt-6">
+        <a href="{% url 'edit_profile' %}" class="inline-block bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+            Edit Profile
+        </a>
+        <a href="{% url 'change_password' %}" class="inline-block bg-red-500 text-white px-4 py-2 rounded ml-4 hover:bg-red-600">
+            Change Password
+        </a>
+    </div>
+</div>
+{% endblock %}
