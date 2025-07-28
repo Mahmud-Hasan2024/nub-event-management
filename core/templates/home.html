@@ -4,9 +4,9 @@
 
 {% block nav %}
     {% if user.is_authenticated %}
-        {% include 'logged-nav.html' %}
+        {% include 'logged_nav.html' %}
     {% else %}
-        {% include 'non-logged-nav.html' %}
+        {% include 'non_logged_nav.html' %}
     {% endif %}
 {% endblock %}
 

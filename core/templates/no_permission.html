@@ -3,7 +3,11 @@
 {% block title %}Permission Denied{% endblock %}
 
 {% block nav %}
-    {% include 'logged-nav.html' %}
+    {% if user.is_authenticated %}
+        {% include 'logged_nav.html' %}
+    {% else %}
+        {% include 'non_logged_nav.html' %}
+    {% endif %}
 {% endblock %}
 
 {% block content %}

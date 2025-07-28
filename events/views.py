@@ -13,6 +13,7 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.contrib.auth import get_user_model
+from events.mixins import AdminOrOrganizerOrParticipantRequiredMixin, AdminOrOrganizerRequiredMixin, AdminRequiredMixin
 
 
 # Create your views here.
@@ -30,7 +31,7 @@ def get_user_role(request):
 
 # Class Based View ekhan theke Shuru korsi
 
-class EventListView(LoginRequiredMixin, ListView):
+class EventListView(AdminOrOrganizerOrParticipantRequiredMixin, LoginRequiredMixin, ListView):
     model = Event
     template_name = 'event_list.html'
     context_object_name = 'events'
@@ -49,7 +50,7 @@ class EventListView(LoginRequiredMixin, ListView):
         return context
 
 
-class EventDetailView(LoginRequiredMixin, DetailView):
+class EventDetailView(AdminOrOrganizerOrParticipantRequiredMixin, LoginRequiredMixin, DetailView):
     model = Event
     template_name = 'event_detail.html'
     context_object_name = 'event'
@@ -60,7 +61,7 @@ class EventDetailView(LoginRequiredMixin, DetailView):
         return context
 
 
-class EventCreateView(LoginRequiredMixin, CreateView):
+class EventCreateView(AdminOrOrganizerRequiredMixin, LoginRequiredMixin, CreateView):
     model = Event
     form_class = EventForm
     template_name = 'create_event.html'
@@ -72,7 +73,7 @@ class EventCreateView(LoginRequiredMixin, CreateView):
         return context
 
 
-class EventUpdateView(LoginRequiredMixin, UpdateView):
+class EventUpdateView(AdminOrOrganizerRequiredMixin, LoginRequiredMixin, UpdateView):
     model = Event
     form_class = EventForm
     template_name = 'update_event.html'
@@ -86,7 +87,7 @@ class EventUpdateView(LoginRequiredMixin, UpdateView):
         return context
 
 
-class EventDeleteView(LoginRequiredMixin, DeleteView):
+class EventDeleteView(AdminOrOrganizerRequiredMixin, LoginRequiredMixin, DeleteView):
     model = Event
     template_name = 'delete_event.html'
     success_url = reverse_lazy('event_list')
@@ -97,7 +98,7 @@ class EventDeleteView(LoginRequiredMixin, DeleteView):
         return context
 
 
-class ParticipantListView(LoginRequiredMixin, ListView):
+class ParticipantListView(AdminRequiredMixin, LoginRequiredMixin, ListView):
     model = User
     template_name = 'participant_list.html'
     context_object_name = 'participants'
@@ -116,7 +117,7 @@ class ParticipantListView(LoginRequiredMixin, ListView):
         return context
 
 
-class ParticipantDetailView(LoginRequiredMixin, DetailView):
+class ParticipantDetailView(AdminRequiredMixin, LoginRequiredMixin, DetailView):
     model = User
     template_name = 'participant_detail.html'
     context_object_name = 'participant'
@@ -127,7 +128,7 @@ class ParticipantDetailView(LoginRequiredMixin, DetailView):
         return context
 
 
-class ParticipantCreateView(LoginRequiredMixin, CreateView):
+class ParticipantCreateView(AdminRequiredMixin, LoginRequiredMixin, CreateView):
     model = User
     form_class = ParticipantCreationForm
     template_name = 'create_participant.html'
@@ -139,7 +140,7 @@ class ParticipantCreateView(LoginRequiredMixin, CreateView):
         return context
 
 
-class ParticipantUpdateView(LoginRequiredMixin, UpdateView):
+class ParticipantUpdateView(AdminRequiredMixin, LoginRequiredMixin, UpdateView):
     model = User
     form_class = ParticipantUpdateForm
     template_name = 'update_participant.html'
@@ -153,7 +154,7 @@ class ParticipantUpdateView(LoginRequiredMixin, UpdateView):
         return context
 
 
-class ParticipantDeleteView(LoginRequiredMixin, DeleteView):
+class ParticipantDeleteView(AdminRequiredMixin, LoginRequiredMixin, DeleteView):
     model = User
     template_name = 'delete_participant.html'
     success_url = reverse_lazy('participant_list')
@@ -164,7 +165,7 @@ class ParticipantDeleteView(LoginRequiredMixin, DeleteView):
         return context
 
 
-class CategoryListView(LoginRequiredMixin, ListView):
+class CategoryListView(AdminOrOrganizerRequiredMixin, LoginRequiredMixin, ListView):
     model = Category
     template_name = 'category_list.html'
     context_object_name = 'categories'
@@ -182,7 +183,7 @@ class CategoryListView(LoginRequiredMixin, ListView):
         return context
 
 
-class CategoryDetailView(LoginRequiredMixin, DetailView):
+class CategoryDetailView(AdminOrOrganizerRequiredMixin, LoginRequiredMixin, DetailView):
     model = Category
     template_name = 'category_detail.html'
     context_object_name = 'category'
@@ -193,7 +194,7 @@ class CategoryDetailView(LoginRequiredMixin, DetailView):
         return context
 
 
-class CategoryCreateView(LoginRequiredMixin, CreateView):
+class CategoryCreateView(AdminOrOrganizerRequiredMixin, LoginRequiredMixin, CreateView):
     model = Category
     form_class = CategoryForm
     template_name = 'create_category.html'
@@ -205,7 +206,7 @@ class CategoryCreateView(LoginRequiredMixin, CreateView):
         return context
 
 
-class CategoryUpdateView(LoginRequiredMixin, UpdateView):
+class CategoryUpdateView(AdminOrOrganizerRequiredMixin, LoginRequiredMixin, UpdateView):
     model = Category
     form_class = CategoryForm
     template_name = 'update_category.html'
@@ -219,7 +220,7 @@ class CategoryUpdateView(LoginRequiredMixin, UpdateView):
         return context
 
 
-class CategoryDeleteView(LoginRequiredMixin, DeleteView):
+class CategoryDeleteView(AdminOrOrganizerRequiredMixin, LoginRequiredMixin, DeleteView):
     model = Category
     template_name = 'delete_category.html'
     success_url = reverse_lazy('category_list')
@@ -253,7 +254,7 @@ def dashboard_view(request):
         }
         return render(request, 'admin_dashboard.html', context)
 
-    elif user.groups.filter(name__iexact='Organizer').exists():
+    elif user.groups.filter(name__iexact='organizer').exists():
         user_role = 'organizer'
         total_events = Event.objects.count()
         upcoming_events = Event.objects.filter(date__gte=timezone.now()).count()
@@ -268,7 +269,7 @@ def dashboard_view(request):
         }
         return render(request, 'organizer_dashboard.html', context)
 
-    elif user.groups.filter(name__iexact='Participant').exists():
+    elif user.groups.filter(name__iexact='participant').exists():
         user_role = 'participant'
         rsvp_events = Event.objects.filter(participants=user)
         context = {
@@ -279,14 +280,14 @@ def dashboard_view(request):
 
     else:
         context = {'user_role': user_role}
-        return render(request, 'core/no-permission.html', context)
+        return render(request, 'core/no_permission.html', context)
     
 
 def is_admin(user):
     return user.is_superuser or user.groups.filter(name='admin').exists()
 
 @login_required
-@user_passes_test(is_admin, login_url='no-permission')
+@user_passes_test(is_admin, login_url='no_permission')
 def manage_users(request):
     user_role = get_user_role(request)
     users = User.objects.exclude(is_superuser=True)
@@ -294,7 +295,7 @@ def manage_users(request):
 
 
 @login_required
-@user_passes_test(is_admin, login_url='no-permission')
+@user_passes_test(is_admin, login_url='no_permission')
 def assign_role(request, user_id):
     user = User.objects.get(id=user_id)
     groups = Group.objects.all()
@@ -311,7 +312,7 @@ def assign_role(request, user_id):
     return render(request, 'assign_role.html', {'target_user': user, 'groups': groups, 'user_role': user_role})
 
 @login_required
-@user_passes_test(is_admin, login_url='no-permission')
+@user_passes_test(is_admin, login_url='no_permission')
 def create_user(request):
     user_role = get_user_role(request)
     if request.method == 'POST':
@@ -331,7 +332,7 @@ def create_user(request):
     return render(request, 'create_user.html', {'groups': groups, 'user_role': user_role})
 
 @login_required
-@user_passes_test(is_admin, login_url='no-permission')
+@user_passes_test(is_admin, login_url='no_permission')
 def edit_user(request, user_id):
     user_role = get_user_role(request)
     user_obj = User.objects.get(pk=user_id)
@@ -371,7 +372,7 @@ def edit_user(request, user_id):
     return render(request, 'edit_user.html', context)
 
 @login_required
-@user_passes_test(is_admin, login_url='no-permission')
+@user_passes_test(is_admin, login_url='no_permission')
 def delete_user(request, user_id):
     user = User.objects.get(id=user_id)
     if user != request.user:
@@ -380,7 +381,7 @@ def delete_user(request, user_id):
 
 
 @login_required
-@user_passes_test(is_admin, login_url='no-permission')
+@user_passes_test(is_admin, login_url='no_permission')
 def create_group(request):
     user_role = get_user_role(request)
 
@@ -396,7 +397,7 @@ def create_group(request):
 
 
 @login_required
-@user_passes_test(is_admin, login_url='no-permission')
+@user_passes_test(is_admin, login_url='no_permission')
 def edit_group(request, group_id):
     group = Group.objects.get(id=group_id)
     user_role = get_user_role(request)
@@ -412,14 +413,14 @@ def edit_group(request, group_id):
     return render(request, 'edit_group.html', {'form': form,'group': group, 'user_role': user_role,})
 
 @login_required
-@user_passes_test(is_admin, login_url='no-permission')
+@user_passes_test(is_admin, login_url='no_permission')
 def manage_groups(request):
     groups = Group.objects.all()
     user_role = get_user_role(request)
     return render(request, 'manage_groups.html', {'groups': groups, 'user_role': user_role})
 
 @login_required
-@user_passes_test(is_admin, login_url='no-permission')
+@user_passes_test(is_admin, login_url='no_permission')
 def delete_group(request, group_id):
     group = Group.objects.get(id=group_id)
     group.delete()
@@ -431,7 +432,7 @@ def is_participant(user):
     return user.groups.filter(name='participant').exists()
 
 @login_required
-@user_passes_test(is_participant, login_url='no-permission')
+@user_passes_test(is_participant, login_url='no_permission')
 def rsvp_event(request, event_id):
     event = Event.objects.get(pk=event_id)
     if request.user in event.participants.all():
@@ -444,7 +445,7 @@ def rsvp_event(request, event_id):
     return redirect('event_list')
 
 @login_required
-@user_passes_test(is_participant, login_url='no-permission')
+@user_passes_test(is_participant, login_url='no_permission')
 def rsvp_list(request):
     events = request.user.events.all()
     return render(request, 'rsvp_list.html', {'events': events, 'user_role': get_user_role(request)})
@@ -452,4 +453,4 @@ def rsvp_list(request):
 
 def no_permission(request):
     user_role = get_user_role(request)
-    return render(request, 'no-permission.html', {'user_role': user_role})
+    return render(request, 'no_permission.html', {'user_role': user_role})

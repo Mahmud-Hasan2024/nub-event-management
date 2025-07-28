@@ -36,5 +36,5 @@ urlpatterns = [
     path('events/<int:event_id>/rsvp/', rsvp_event, name='rsvp_event'),
     path('rsvp-list/', rsvp_list, name='rsvp_list'),
 
-    path('no-permission/', no_permission, name='no-permission'),
+    path('no-permission/', no_permission, name='no_permission'),
 ]

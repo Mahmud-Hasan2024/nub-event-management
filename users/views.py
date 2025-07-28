@@ -20,7 +20,7 @@ def get_user_role(request):
             return 'admin'
         elif request.user.groups.filter(name='organizer').exists():
             return 'organizer'
-        else:
+        elif request.user.groups.filter(name='participant').exists():
             return 'participant'
     return None
 
