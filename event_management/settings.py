@@ -101,10 +101,14 @@ WSGI_APPLICATION = 'event_management.wsgi.application'
 # }
 
 DATABASES = {
-    'default': dj_database_url.config(
-        default='postgresql://event_management_db_13s9_user:LoAw1JJLwHzKBimOCBzspD3TTIlIJAr7@dpg-d2fc09re5dus73ahq1j0-a.oregon-postgres.render.com/event_management_db_13s9',
-        conn_max_age=600
-    )
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": config('dbname'),
+        "USER": config('user'),
+        "PASSWORD": config('password'),
+        "HOST": config('host'),
+        "PORT": config('port'),
+    }
 }
 
 # Password validation

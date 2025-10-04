@@ -25,27 +25,44 @@
 
 {% if user.is_authenticated %}
     <div class="bg-blue-500 p-4 mb-4">
-        <div class="container mx-auto flex justify-between items-center">
-            <div>
+        <div class="container mx-auto">
+            <!-- Hamburger menu button for mobile -->
+            <button id="sub-menu-toggle" class="md:hidden text-white focus:outline-none" aria-label="Toggle sub-menu">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+
+            <!-- Sub-menu links -->
+            <div id="sub-menu" class="hidden md:flex md:flex-row md:justify-between items-center space-y-2 md:space-y-0 md:space-x-4 mt-2 md:mt-0">
                 {% if user_role == 'admin' %}
-                    <a href="{% url 'dashboard' %}" class="ml-4 text-white text-lg hover:underline hover:text-yellow-400">Admin_Dashboard</a>
-                    <a href="{% url 'event_list' %}" class="ml-4 text-white text-lg hover:underline hover:text-yellow-400">Events</a>
-                    <a href="{% url 'participant_list' %}" class="ml-4 text-white text-lg hover:underline hover:text-yellow-400">Participants</a>
-                    <a href="{% url 'category_list' %}" class="ml-4 text-white text-lg hover:underline hover:text-yellow-400">Categories</a>
-                    <a href="{% url 'manage_users' %}" class="ml-4 text-white text-lg hover:underline hover:text-yellow-400">Manage_Users</a>
-                    <a href="{% url 'manage_groups' %}" class="ml-4 text-white text-lg hover:underline hover:text-yellow-400">Manage_Groups</a>
-                    <a href="{% url 'profile' %}" class="ml-4 text-white text-lg hover:underline hover:text-yellow-400">Profile</a>
+                    <a href="{% url 'dashboard' %}" class="text-white text-lg hover:underline hover:text-yellow-400 block md:inline-block">Admin_Dashboard</a>
+                    <a href="{% url 'event_list' %}" class="text-white text-lg hover:underline hover:text-yellow-400 block md:inline-block">Events</a>
+                    <a href="{% url 'participant_list' %}" class="text-white text-lg hover:underline hover:text-yellow-400 block md:inline-block">Participants</a>
+                    <a href="{% url 'category_list' %}" class="text-white text-lg hover:underline hover:text-yellow-400 block md:inline-block">Categories</a>
+                    <a href="{% url 'manage_users' %}" class="text-white text-lg hover:underline hover:text-yellow-400 block md:inline-block">Manage_Users</a>
+                    <a href="{% url 'manage_groups' %}" class="text-white text-lg hover:underline hover:text-yellow-400 block md:inline-block">Manage_Groups</a>
+                    <a href="{% url 'profile' %}" class="text-white text-lg hover:underline hover:text-yellow-400 block md:inline-block">Profile</a>
                 {% elif user_role == 'organizer' %}
-                    <a href="{% url 'dashboard' %}" class="ml-4 text-white text-lg hover:underline hover:text-yellow-400">Organizer_Dashboard </a>
-                    <a href="{% url 'event_list' %}" class="ml-4 text-white text-lg hover:underline hover:text-yellow-400">Events</a>
-                    <a href="{% url 'category_list' %}" class="ml-4 text-white text-lg hover:underline hover:text-yellow-400">Categories</a>
-                    <a href="{% url 'profile' %}" class="ml-4 text-white text-lg hover:underline hover:text-yellow-400">Profile</a>
+                    <a href="{% url 'dashboard' %}" class="text-white text-lg hover:underline hover:text-yellow-400 block md:inline-block">Organizer_Dashboard</a>
+                    <a href="{% url 'event_list' %}" class="text-white text-lg hover:underline hover:text-yellow-400 block md:inline-block">Events</a>
+                    <a href="{% url 'category_list' %}" class="text-white text-lg hover:underline hover:text-yellow-400 block md:inline-block">Categories</a>
+                    <a href="{% url 'profile' %}" class="text-white text-lg hover:underline hover:text-yellow-400 block md:inline-block">Profile</a>
                 {% elif user_role == 'participant' %}
-                    <a href="{% url 'event_list' %}" class="ml-4 text-white text-lg hover:underline hover:text-yellow-400">Events</a>
-                    <a href="{% url 'rsvp_list' %}" class="ml-4 text-white text-lg hover:underline hover:text-yellow-400">My_RSVPs</a>
-                    <a href="{% url 'profile' %}" class="ml-4 text-white text-lg hover:underline hover:text-yellow-400">Profile</a>
+                    <a href="{% url 'event_list' %}" class="text-white text-lg hover:underline hover:text-yellow-400 block md:inline-block">Events</a>
+                    <a href="{% url 'rsvp_list' %}" class="text-white text-lg hover:underline hover:text-yellow-400 block md:inline-block">My_RSVPs</a>
+                    <a href="{% url 'profile' %}" class="text-white text-lg hover:underline hover:text-yellow-400 block md:inline-block">Profile</a>
                 {% endif %}
             </div>
         </div>
     </div>
+
+    <script>
+        document.getElementById('sub-menu-toggle').addEventListener('click', () => {
+            const subMenu = document.getElementById('sub-menu');
+            subMenu.classList.toggle('hidden');
+            subMenu.classList.toggle('flex');
+            subMenu.classList.toggle('flex-col');
+        });
+    </script>
 {% endif %}
