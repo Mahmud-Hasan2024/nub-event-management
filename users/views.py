@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model
 from users.forms import CreateUserForm, CustomLoginForm, CustomPasswordChangeForm, CustomPasswordResetForm, CustomPasswordResetConfirmForm
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.auth.models import Group
-from django.contrib.auth.views import LoginView, PasswordChangeView, PasswordResetView, PasswordResetConfirmView
+from django.contrib.auth.views import LoginView, PasswordChangeView, PasswordChangeDoneView, PasswordResetView, PasswordResetConfirmView
 from users.forms import CustomLoginForm
 from django.views.generic import DetailView, UpdateView
 from users.forms import EditProfileForm
@@ -101,7 +101,7 @@ class EditProfileView(UpdateView):
 class ChangePassword(PasswordChangeView):
     template_name = 'change_password.html'
     form_class = CustomPasswordChangeForm
-    success_url = reverse_lazy('profile')
+    success_url = reverse_lazy('password_change_done')
 
     def form_valid(self, form):
         messages.success(self.request, 'Your password was changed successfully.')
@@ -111,6 +111,16 @@ class ChangePassword(PasswordChangeView):
         context = super().get_context_data(**kwargs)
         context['user_role'] = get_user_role(self.request)
         return context
+    
+
+class CustomPasswordChangeDoneView(PasswordChangeDoneView):
+    template_name = 'change_password_done.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['user_role'] = get_user_role(self.request)
+        return context
+
 
 
 class CustomPasswordResetView(PasswordResetView):

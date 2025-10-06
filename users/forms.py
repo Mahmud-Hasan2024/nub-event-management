@@ -47,6 +47,22 @@ class CustomLoginForm(AuthenticationForm):
 
 class EditProfileForm(UserChangeForm):
     password = None
+
+    first_name = forms.CharField(widget=forms.TextInput(attrs={
+        'class': 'w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500', 'placeholder': 'Username',
+    }))
+    last_name = forms.CharField(widget=forms.TextInput(attrs={
+        'class': 'w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500', 'placeholder': 'Password',
+    }))
+    email = forms.CharField(widget=forms.EmailInput(attrs={
+        'class': 'w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500', 'placeholder': 'Username',
+    }))
+    phone_number = forms.CharField(widget=forms.NumberInput(attrs={
+        'class': 'w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500', 'placeholder': 'Phone Number',
+    }))
+    profile_image = forms.ImageField(required=False, widget=forms.FileInput(attrs={
+        'class': 'w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500', 'placeholder': 'Profile Image',
+    }))
     
     class Meta:
         model = User
@@ -56,31 +72,39 @@ class EditProfileForm(UserChangeForm):
 class CustomPasswordChangeForm(PasswordChangeForm):
     old_password = forms.CharField(
         label='Old Password',
-        widget=forms.PasswordInput(attrs={'class': 'w-full p-2 border rounded'})
+        widget=forms.PasswordInput(attrs={'class': 'w-full p-3 border border-gray-400 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-150',
+            'placeholder': 'Enter your old password'})
     )
     new_password1 = forms.CharField(
         label='New Password',
-        widget=forms.PasswordInput(attrs={'class': 'w-full p-2 border rounded'})
+        widget=forms.PasswordInput(attrs={
+            'class': 'w-full p-3 border border-gray-400 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-150',
+            'placeholder': 'Enter your new password'
+        })
     )
     new_password2 = forms.CharField(
         label='Confirm New Password',
-        widget=forms.PasswordInput(attrs={'class': 'w-full p-2 border rounded'})
+        widget=forms.PasswordInput(attrs={'class': 'w-full p-3 border border-gray-400 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-150',
+            'placeholder': 'Enter your new password again'})
     )
 
 
 class CustomPasswordResetForm(PasswordResetForm):
     email = forms.EmailField(
         label='Email',
-        widget=forms.EmailInput(attrs={'class': 'w-full p-2 border rounded'})
+        widget=forms.EmailInput(attrs={'class': 'w-full p-3 border border-gray-400 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-150',
+            'placeholder': 'Enter your email address'})
     )
 
 
 class CustomPasswordResetConfirmForm(SetPasswordForm):
     new_password1 = forms.CharField(
         label='New Password',
-        widget=forms.PasswordInput(attrs={'class': 'w-full p-2 border rounded'})
+        widget=forms.PasswordInput(attrs={'class': 'w-full p-3 border border-gray-400 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-150',
+            'placeholder': 'Enter your new password'})
     )
     new_password2 = forms.CharField(
         label='Confirm New Password',
-        widget=forms.PasswordInput(attrs={'class': 'w-full p-2 border rounded'})
+        widget=forms.PasswordInput(attrs={'class': 'w-full p-3 border border-gray-400 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-150',
+            'placeholder': 'Enter your new password again'})
     )
