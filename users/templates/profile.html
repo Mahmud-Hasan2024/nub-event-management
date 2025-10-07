@@ -16,6 +16,7 @@
 
     <div class="flex flex-col md:flex-row items-start md:items-center gap-6">
         <div class="flex-1">
+            <p class="mb-2"><strong>Full Name:</strong> {{ profile_user.get_full_name }}</p>
             <p class="mb-2"><strong>Username:</strong> {{ profile_user.username }}</p>
             <p class="mb-2"><strong>Email:</strong> {{ profile_user.email }}</p>
             <p class="mb-2"><strong>Phone:</strong> {{ profile_user.phone_number }}</p>
