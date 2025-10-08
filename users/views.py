@@ -63,7 +63,6 @@ def activate_user(request, user_id, token):
     else:
         return render(request, 'registration/activation_invalid.html')
 
-User = get_user_model()
 
 class ProfileView(DetailView):
     model = User

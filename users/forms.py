@@ -5,15 +5,22 @@ from django.contrib.auth import get_user_model
 # Create your models here.
 User = get_user_model()
 
+
 class CreateUserForm(UserCreationForm):
-    username = forms.CharField(widget=forms.TextInput(attrs={
-        'class': 'w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500',
-        'placeholder': 'Username',
-    }))
-    email = forms.EmailField(widget=forms.EmailInput(attrs={
-        'class': 'w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500',
-        'placeholder': 'Email Address',
-    }))
+    username = forms.CharField(
+        required=True,
+        widget=forms.TextInput(attrs={
+            'class': 'w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500',
+            'placeholder': 'Username',
+        })
+    )
+    email = forms.EmailField(
+        required=True,
+        widget=forms.EmailInput(attrs={
+            'class': 'w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500',
+            'placeholder': 'Email Address',
+        })
+    )
     first_name = forms.CharField(widget=forms.TextInput(attrs={
         'class': 'w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500',
         'placeholder': 'First Name',
@@ -34,6 +41,18 @@ class CreateUserForm(UserCreationForm):
     class Meta:
         model = User
         fields = ['username', 'email', 'first_name', 'last_name', 'password1', 'password2']
+
+    def clean_username(self):
+        username = self.cleaned_data.get('username').lower()
+        if User.objects.filter(username__iexact=username).exists():
+            raise forms.ValidationError("This username is already taken.")
+        return username
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if email and User.objects.filter(email__iexact=email).exists():
+            raise forms.ValidationError("This email is already in use.")
+        return email
 
 
 
