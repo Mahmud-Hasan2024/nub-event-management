@@ -13,7 +13,7 @@ class EventForm(forms.ModelForm):
         fields = ['name', 'description', 'date', 'time', 'location', 'category', 'participants', 'image']
         widgets = {
             'name': forms.TextInput(attrs={'class': 'border border-gray-300 rounded p-2 w-full'}),
-            'description': forms.Textarea(attrs={'class': 'border border-gray-300 rounded p-2 w-full'}),
+            'description': forms.Textarea(attrs={'class': 'border border-gray-300 rounded p-2 w-full resize-none'}),
             'date': forms.SelectDateWidget(attrs={'class': 'border border-gray-300 rounded p-2 w-full'}),
             'time': forms.TimeInput(attrs={'class': 'border border-gray-300 rounded p-2 w-full'}),
             'location': forms.TextInput(attrs={'class': 'border border-gray-300 rounded p-2 w-full'}),
@@ -28,7 +28,7 @@ class CategoryForm(forms.ModelForm):
         fields = ['name', 'description']
         widgets = {
             'name': forms.TextInput(attrs={'class': 'border border-gray-300 rounded p-2 w-full'}),
-            'description': forms.Textarea(attrs={'class': 'border border-gray-300 rounded p-2 w-full'}),
+            'description': forms.Textarea(attrs={'class': 'border border-gray-300 rounded p-2 w-full resize-none'}),
         }
 
 class ParticipantCreationForm(UserCreationForm):
