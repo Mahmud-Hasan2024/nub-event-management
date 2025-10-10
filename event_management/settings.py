@@ -1,4 +1,5 @@
 from pathlib import Path
+import cloudinary
 from decouple import config
 import dj_database_url
 import os
@@ -113,6 +114,19 @@ DATABASES = {
         },
     }
 }
+
+# Configuration for Cloudinary   
+cloudinary.config( 
+    cloud_name = config('cloud_name'), 
+    api_key = config('api_key') , 
+    api_secret = config('api_secret'),
+    secure=True
+)
+
+CLOUDINARY_URL = config('CLOUDINARY_URL')
+
+# Media storage using Cloudinary
+DEFAULT_FILE_STORAGE = config('DEFAULT_FILE_STORAGE')
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
