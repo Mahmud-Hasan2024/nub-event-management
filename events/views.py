@@ -8,7 +8,6 @@ from events.models import Event, Category
 from django.contrib.auth.models import Group
 from django.utils import timezone
 from django.contrib import messages
-from django.views import View
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
@@ -67,16 +66,32 @@ class EventCreateView(AdminOrOrganizerRequiredMixin, LoginRequiredMixin, CreateV
     template_name = 'create_event.html'
     success_url = reverse_lazy('event_list')
 
+    def form_valid(self, form):
+        event = form.save(commit=False)
+        event.created_by = self.request.user
+        event.save()
+        form.save_m2m()
+        messages.success(self.request, f"Event '{event.name}' created successfully.")
+        return redirect(self.success_url)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['user_role'] = get_user_role(self.request)
         return context
 
 
+
 class EventUpdateView(AdminOrOrganizerRequiredMixin, LoginRequiredMixin, UpdateView):
     model = Event
     form_class = EventForm
     template_name = 'update_event.html'
+
+    def form_valid(self, form):
+        event = form.save(commit=False)
+        event.save()
+        form.save_m2m()
+        messages.success(self.request, f"Event '{event.name}' updated successfully.")
+        return redirect(self.get_success_url())
 
     def get_success_url(self):
         return reverse_lazy('event_detail', kwargs={'pk': self.object.pk})
@@ -85,6 +100,7 @@ class EventUpdateView(AdminOrOrganizerRequiredMixin, LoginRequiredMixin, UpdateV
         context = super().get_context_data(**kwargs)
         context['user_role'] = get_user_role(self.request)
         return context
+
 
 
 class EventDeleteView(AdminOrOrganizerRequiredMixin, LoginRequiredMixin, DeleteView):
