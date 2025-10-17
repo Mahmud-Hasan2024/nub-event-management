@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.models import User
 from events.models import Event, Category
 from events.forms import EventForm, CategoryForm, ParticipantCreationForm, ParticipantUpdateForm, EditUserForm, GroupPermissionForm
@@ -450,15 +450,19 @@ def is_participant(user):
 @login_required
 @user_passes_test(is_participant, login_url='no_permission')
 def rsvp_event(request, event_id):
-    event = Event.objects.get(pk=event_id)
-    if request.user in event.participants.all():
+    event = get_object_or_404(Event, pk=event_id)
+
+    if event.participants.filter(pk=request.user.pk).exists():
         messages.info(request, "You have already RSVPed to this event.")
-        
     else:
-        event.participants.add(request.user)
-        messages.success(request, f"You have successfully RSVPed to {event.name}.")
+        try:
+            event.participants.add(request.user)
+            messages.success(request, f"You have successfully RSVPed to {event.name}.")
+        except Exception as e:
+            messages.error(request, f"Could not RSVP: {str(e)}")
 
     return redirect('event_list')
+
 
 @login_required
 @user_passes_test(is_participant, login_url='no_permission')
