@@ -17,5 +17,5 @@ def send_rsvp_email(sender, instance, action, pk_set, **kwargs):
                 message=f"Hi {user.username}, you've successfully RSVPed to the event '{instance.name}'.",
                 from_email="lboy71943@gmail.com",
                 recipient_list=[user.email],
-                fail_silently=False,
+                fail_silently=True,
             )

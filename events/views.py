@@ -1,4 +1,4 @@
-from django.shortcuts import get_object_or_404, render, redirect
+from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from events.models import Event, Category
 from events.forms import EventForm, CategoryForm, ParticipantCreationForm, ParticipantUpdateForm, EditUserForm, GroupPermissionForm
@@ -66,32 +66,16 @@ class EventCreateView(AdminOrOrganizerRequiredMixin, LoginRequiredMixin, CreateV
     template_name = 'create_event.html'
     success_url = reverse_lazy('event_list')
 
-    def form_valid(self, form):
-        event = form.save(commit=False)
-        event.created_by = self.request.user
-        event.save()
-        form.save_m2m()
-        messages.success(self.request, f"Event '{event.name}' created successfully.")
-        return redirect(self.success_url)
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['user_role'] = get_user_role(self.request)
         return context
 
 
-
 class EventUpdateView(AdminOrOrganizerRequiredMixin, LoginRequiredMixin, UpdateView):
     model = Event
     form_class = EventForm
     template_name = 'update_event.html'
-
-    def form_valid(self, form):
-        event = form.save(commit=False)
-        event.save()
-        form.save_m2m()
-        messages.success(self.request, f"Event '{event.name}' updated successfully.")
-        return redirect(self.get_success_url())
 
     def get_success_url(self):
         return reverse_lazy('event_detail', kwargs={'pk': self.object.pk})
@@ -100,7 +84,6 @@ class EventUpdateView(AdminOrOrganizerRequiredMixin, LoginRequiredMixin, UpdateV
         context = super().get_context_data(**kwargs)
         context['user_role'] = get_user_role(self.request)
         return context
-
 
 
 class EventDeleteView(AdminOrOrganizerRequiredMixin, LoginRequiredMixin, DeleteView):
@@ -450,19 +433,15 @@ def is_participant(user):
 @login_required
 @user_passes_test(is_participant, login_url='no_permission')
 def rsvp_event(request, event_id):
-    event = get_object_or_404(Event, pk=event_id)
-
-    if event.participants.filter(pk=request.user.pk).exists():
+    event = Event.objects.get(pk=event_id)
+    if request.user in event.participants.all():
         messages.info(request, "You have already RSVPed to this event.")
+        
     else:
-        try:
-            event.participants.add(request.user)
-            messages.success(request, f"You have successfully RSVPed to {event.name}.")
-        except Exception as e:
-            messages.error(request, f"Could not RSVP: {str(e)}")
+        event.participants.add(request.user)
+        messages.success(request, f"You have successfully RSVPed to {event.name}.")
 
     return redirect('event_list')
-
 
 @login_required
 @user_passes_test(is_participant, login_url='no_permission')
