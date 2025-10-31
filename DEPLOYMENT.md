@@ -4,9 +4,9 @@
 
 ## 🌍 Live Links
 
-Live website : https://event-management-9y10.onrender.com
+**Production:** [ https://event-management-9y10.onrender.com](https://event-management-9y10.onrender.com)
 
-Github link : https://github.com/Mahmud-Hasan2024/nub-event-management
+**GitHub:** [https://github.com/Mahmud-Hasan2024/nub-event-management](https://github.com/Mahmud-Hasan2024/nub-event-management)
 
 ---
 

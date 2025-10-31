@@ -5,9 +5,11 @@ This system supports **user authentication, role-based access control (RBAC), RS
 
 ---
 
-## 🚀 Live Website
+## 🚀 Live Links
 
-https://event-management-9y10.onrender.com
+**Production:** [ https://event-management-9y10.onrender.com](https://event-management-9y10.onrender.com)
+
+**GitHub:** [https://github.com/Mahmud-Hasan2024/nub-event-management](https://github.com/Mahmud-Hasan2024/nub-event-management)
     
 
 ---
