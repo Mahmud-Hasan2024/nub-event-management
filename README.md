@@ -15,11 +15,11 @@ This system supports **user authentication, role-based access control (RBAC), RS
 
 ## 👤 Demo Accounts
 
-| Role       | Username       | Password      |
-| ---------- | -------------- | ------------- |
-| Admin      | `admin1`       | `password123` |
-| Employer   | `organizer1`   | `password123` |
-| Job Seeker | `participant1` | `password123` |
+| Role        | Username       | Password      |
+| ----------- | -------------- | ------------- |
+| Admin       | `admin1`       | `password123` |
+| Organizer   | `organizer1`   | `password123` |
+| Participant | `participant1` | `password123` |
 
 Use these credentials to log in and explore the website.
 
