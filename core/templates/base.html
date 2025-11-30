@@ -6,10 +6,32 @@
     {% load static %}
     <link href="{% static 'css/output.css' %}" rel="stylesheet">
 </head>
+
 <body class="bg-gray-100 min-h-screen">
+
     {% block nav %}{% endblock %}
+
     <main class="p-4">
         {% block content %}{% endblock %}
     </main>
+
+    <!-- Disable button on form submit -->
+    <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const forms = document.querySelectorAll("form");
+
+        forms.forEach(form => {
+            form.addEventListener("submit", () => {
+                const btn = form.querySelector("button[type='submit']");
+                if (btn) {
+                    btn.disabled = true;
+                    btn.innerHTML = "Processing...";
+                    btn.classList.add("opacity-50", "cursor-not-allowed");
+                }
+            });
+        });
+    });
+    </script>
+
 </body>
 </html>

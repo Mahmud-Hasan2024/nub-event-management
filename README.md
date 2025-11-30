@@ -10,16 +10,15 @@ This system supports **user authentication, role-based access control (RBAC), RS
 **Production:** [ https://event-management-9y10.onrender.com](https://event-management-9y10.onrender.com)
 
 **GitHub:** [https://github.com/Mahmud-Hasan2024/nub-event-management](https://github.com/Mahmud-Hasan2024/nub-event-management)
-    
 
 ---
 
 ## 👤 Demo Accounts
 
-| Role | Username | Password |
-| --- | --- | --- |
-| Admin | `admin1` | `password123` |
-| Employer | `organizer1` | `password123` |
+| Role       | Username       | Password      |
+| ---------- | -------------- | ------------- |
+| Admin      | `admin1`       | `password123` |
+| Employer   | `organizer1`   | `password123` |
 | Job Seeker | `participant1` | `password123` |
 
 Use these credentials to log in and explore the website.
@@ -30,23 +29,17 @@ Use these credentials to log in and explore the website.
 
 ### 🔐 Authentication
 
--   User **signup, login, and logout** functionality.
-    
--   Signup fields include: `username`, `email`, `password`, `first_name`, and `last_name`.
-    
--   **Email verification** required for account activation.
-    
+- User **signup, login, and logout** functionality.
+- Signup fields include: `username`, `email`, `password`, `first_name`, and `last_name`.
+- **Email verification** required for account activation.
 
 ### 🧑‍💼 Role-Based Access Control (RBAC)
 
 Roles are implemented using **Django Groups**:
 
--   **Admin** 🛠️ — Full control: manage users, events, and categories.
-    
--   **Organizer** 🎯 — Create, update, and delete events & categories.
-    
--   **Participant** 👤 — View events and RSVP to attend.
-    
+- **Admin** 🛠️ — Full control: manage users, events, and categories.
+- **Organizer** 🎯 — Create, update, and delete events & categories.
+- **Participant** 👤 — View events and RSVP to attend.
 
 🔒 Access to views is restricted based on user roles using **decorators**.
 
@@ -54,40 +47,30 @@ Roles are implemented using **Django Groups**:
 
 ## 📬 RSVP System
 
--   Participants can RSVP to events they’re interested in.
-    
--   RSVP data is stored via a **ManyToMany relationship** between `User` and `Event`.
-    
--   Duplicate RSVPs are prevented.
-    
--   A **confirmation email** is sent automatically after RSVP.
-    
--   Participants can view their RSVPs in their **dashboard**.
-    
+- Participants can RSVP to events they’re interested in.
+- RSVP data is stored via a **ManyToMany relationship** between `User` and `Event`.
+- Duplicate RSVPs are prevented.
+- A **confirmation email** is sent automatically after RSVP.
+- Participants can view their RSVPs in their **dashboard**.
 
 ---
 
 ## ✉️ Email Activation
 
--   On registration, a **secure activation email** is sent to the user.
-    
--   Users must activate their account before login.
-    
--   Uses Django’s built-in `default_token_generator` for secure activation links.
-    
+- On registration, a **secure activation email** is sent to the user.
+- Users must activate their account before login.
+- Uses Django’s built-in `default_token_generator` for secure activation links.
 
 ---
 
 ## ⚡ Django Signals & Media Files
 
--   **Signals** are used for automation:
-    
-    -   Send activation email after registration.
-        
-    -   Send RSVP confirmation email.
-        
--   Added **ImageField** to the `Event` model with a **default event image**.
-    
+- **Signals** are used for automation:
+
+  - Send activation email after registration.
+  - Send RSVP confirmation email.
+
+- Added **ImageField** to the `Event` model with a **default event image**.
 
 ---
 
@@ -95,28 +78,22 @@ Roles are implemented using **Django Groups**:
 
 Upon login, users are redirected to role-based dashboards:
 
-| Role | Dashboard Description |
-| --- | --- |
-| **Admin** | Manage all events, participants, and categories |
-| **Organizer** | Manage own events and categories |
-| **Participant** | View and manage RSVP’d events |
+| Role            | Dashboard Description                           |
+| --------------- | ----------------------------------------------- |
+| **Admin**       | Manage all events, participants, and categories |
+| **Organizer**   | Manage own events and categories                |
+| **Participant** | View and manage RSVP’d events                   |
 
 ---
 
 ## 🛠️ Tech Stack
 
--   **Framework:** Django 5.x
-    
--   **Frontend:** HTML, CSS, Bootstrap
-    
--   **Database:** SQLite / PostgreSQL
-    
--   **Authentication:** Django Auth + Email Verification
-    
--   **Email Service:** SMTP
-    
--   **Other Tools:** Django Signals, Django Messages Framework
-    
+- **Framework:** Django 5.x
+- **Frontend:** HTML, CSS, Bootstrap
+- **Database:** SQLite / PostgreSQL
+- **Authentication:** Django Auth + Email Verification
+- **Email Service:** SMTP
+- **Other Tools:** Django Signals, Django Messages Framework
 
 ---
 
@@ -186,27 +163,20 @@ Then open your browser and go to:
 
 ## 📸 Screenshots (Optional)
 
-*(Add your project screenshots here)*
+_(Add your project screenshots here)_
 
--   Login Page
-    
--   Admin Dashboard
-    
--   Organizer Event Management
-    
--   Participant RSVP List
-    
+- Login Page
+- Admin Dashboard
+- Organizer Event Management
+- Participant RSVP List
 
 ---
 
 ## 💡 Future Enhancements
 
--   Event reminder emails.
-    
--   Event search and filtering.
-    
--   Integration with Google Calendar.
-    
+- Event reminder emails.
+- Event search and filtering.
+- Integration with Google Calendar.
 
 ---
 
